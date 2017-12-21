@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <link href="css/materialize.min.css" rel="stylesheet" type="text/css"/>
+        <link rel = "stylesheet" href = "css/material.css">
+        <script src="js/materialize.min.js" type="text/javascript"></script>
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+        <script src="js/controller.js" type="text/javascript"></script>
+        <script src="js/alumno.js" type="text/javascript"></script>
+        <script src="js/index.js" type="text/javascript"></script>
+        <title>Gestión Académica</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" data-activates="menu-lateral" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+                <a href="#!" class="brand-logo" >Gestión académica</a>
+                <ul id="menu-lateral" class="side-nav collapsible">
+                    <li><div class="user-view">
+                        <div class="background">
+                            <img src="img/office.jpg" alt="background"/>
+                        </div>
+                            <a href="#!user"><img class="circle" src="img/avatar.png" alt="avatar"/></a>
+                        <a href="#!name"><span class="white-text name">Identificado como:</span></a>
+                        <a href="#!name"><span class="white-text email" id="user_login">Sin conexión</span></a>
+                        <!-- a href="#!email"><span class="white-text email">anonimo@fernandez.es</span></a-->
+                      </div></li>
+                    <li class="white"><a href="#!">Inicio</a></li>
+                    <li class="white">
+                        <a class="collapsible-header">Alumnado<i class="material-icons"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#!" id="menu_al_alu">Alta</a></li>
+                                <li><a href="#!" id="menu_mo_alu" onclick="$.alumno.AlumnoUpdateREST();">Modificación</a></li>
+                                <li><a href="#!" id="menu_li_alu" onclick="$.alumno.AlumnoReadREST();">Listado</a></li>
+                                <li><a href="#!" id="menu_bo_alu" onclick="$.alumno.AlumnoDeleteREST();">Borrado</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="white">
+                        <a class="collapsible-header">Profesorado<i class="material-icons"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#!" id="menu_al_pro">Alta</a></li>
+                                <li><a href="#!" id="menu_mo_pro">Modificación</a></li>
+                                <li><a href="#!" id="menu_li_pro">Listado</a></li>
+                                <li><a href="#!" id="menu_bo_pro">Borrado</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="white">
+                        <a class="collapsible-header">Asignaturas<i class="material-icons"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#!" id="menu_al_asig">Alta</a></li>
+                                <li><a href="#!" id="menu_pro_asig">Asignación profesor/asignatura</a></li>
+                                <li><a href="#!" id="menu_alu_asig">Matriculaciones alumnos</a></li>
+                                <li><a href="#!" id="menu_bor_asig">Borrado asignaturas</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!--li><a href="#!" id="menu_login">Login</a></li-->
+                    <li><a href="#!" id="modal_login_menu" onclick="$('#modal_login').modal('open');">Login</a></li>
+                    <li><a href="#!" id="menu_creditos">Sobre esta aplicación</a></li>
+                    <li><a href="#!" id="menu_ayuda">Manual usuario</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <div id="panel_main" class="panel" hidden>
+                Vista inicial de la aplicación
+            </div>
+            <!-- ALUMNADO -->
+            <div id="panel_al_alu" class="panel" hidden>
+                <h3>Create Alumno</h3>
+                <div class="input">
+                    <form>
+                        <div class="input">
+                            <input type="text" id="c_al_nombre" class="input-field" placeholder="Nombre del Alumno" >
+                        </div>
+                        <div class="input">
+                            <input type="text" id="c_al_apellidos" class="input-field" placeholder="Apellidos del Alumno"  >
+                        </div>
+                        <div class="input">
+                            <div class="btn" onclick="$.alumno.AlumnoCreateREST()">Enviar!</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="panel_li_alu" class="panel" hidden>
+                Listado de alumnos y gestión de modificaciones/borrado
+            </div>
+            <div id="panel_mo_alu" class="panel" hidden>
+                <h3>Update Alumno</h3>
+                <div class="input">
+                    <form>
+                        <div class="input">
+                            <input type="hidden" id="u_al_id" class="input-field">
+                        </div> 
+                        <div class="input">
+                            <input type="text" id="u_al_nombre" class="input-field" placeholder="Nombre del Alumno" >
+                        </div>
+                        <div class="input">
+                            <input type="text" id="u_al_apellidos" class="input-field" placeholder="Apellidos del Alumno"  >
+                        </div>
+                        <div class="input">
+                            <div class="btn" onclick="$.alumno.AlumnoUpdateREST(1,1)">Enviar!</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="panel_bo_alu" class="panel" hidden>
+                Formulario para borrar un alumno
+            </div>
+            <!-- PROFESORADO -->
+            <div id="panel_al_pro" class="panel" hidden>
+                Alta de un profesor
+            </div>
+            <div id="panel_li_pro" class="panel" hidden>
+                Listado de profesores y gestión de modificaciones/borrado
+            </div>
+            <div id="panel_mo_pro" class="panel" hidden>
+                Formulario para editar un profesor
+            </div>
+            <div id="panel_bo_pro" class="panel" hidden>
+                Formulario para borrar un profesor
+            </div>
+            <!-- GESTION ASIGNATURAS -->
+
+            <div id="panel_al_asig" class="panel" hidden>
+                Formulario para añadir/editar una asignatura
+            </div>
+            <div id="panel_pro_asig" class="panel" hidden>
+                Maestro/detalle asignaturas/profesor
+            </div>
+            <div id="panel__alu_asig" class="panel" hidden>
+                Maestro/detalle asignaturas/alumno
+            </div>
+            <div id="panel_bor_asig" class="panel" hidden>
+                Listado de asignaturas y gestión de modificaciones/borrado
+            </div>
+            
+            <!-- Gestión usuario / Login  -->
+            <!--div id="panel_login" class="panel" hidden>
+                <h3>Conexión al sistema</h3>
+                <div id="form_login" >
+                    <form>
+                        <div class="input">
+                            <input type="text" id="username" class="input-field" placeholder="username">
+                        </div> 
+                        <div class="input">
+                            <input type="password" id="password" class="input-field" placeholder="password" >
+                        </div>
+
+                        <div class="input">
+                            <div class="btn" onclick="$.controller.login();">Enviar!</div>
+                        </div>
+                    </form>
+                </div>
+            </div-->
+            
+            <div id="modal_login" class="modal">
+                <div class="modal-content">
+                  <h4>Login</h4>
+                  <form>
+                        <div class="input">
+                            <input type="text" id="username" class="input-field" placeholder="username">
+                        </div> 
+                        <div class="input">
+                            <input type="password" id="password" class="input-field" placeholder="password" >
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="$.controller.login();">Enviar!</a>
+                </div>
+            </div>
+
+            
+            <!-- Panel para mostrar el manual de usuario... -->
+            <div id="panel_ayuda" class="panel" hidden>
+                Caja para la gestión de errores (mostrar errores y/o avisos)
+            </div>
+            
+            <!-- Panel con información sobre licencia de la APP -->
+            <div id="panel_creditos" class="panel" hidden>
+                
+                <h3 style="text-align: center;">GNU GENERAL PUBLIC LICENSE</h3>
+                <p style="text-align: center;">Version 3, 29 June 2007</p>
+
+                <p>Copyright © 2007 Free Software Foundation, Inc.
+                 &lt;<a href="https://fsf.org/">https://fsf.org/</a>&gt;</p><p>
+                 Everyone is permitted to copy and distribute verbatim copies
+                 of this license document, but changing it is not allowed.</p>
+
+                <h3><a name="preamble"></a>Preamble</h3>
+
+                <p>The GNU General Public License is a free, copyleft license for
+                software and other kinds of works.</p>
+
+            </div>
+            <div id="panel_error" class="panel" hidden>
+                Caja para la gestión de errores (mostrar errores y/o avisos)
+            </div>
+
+        </div>
+    </body>
+</html>
