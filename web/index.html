@@ -22,9 +22,9 @@
                 <ul id="menu-lateral" class="side-nav collapsible">
                     <li><div class="user-view">
                         <div class="background">
-                            <img src="img/office.jpg" alt="background"/>
+                            <img src="img/nav-menu-header-bg.jpg" alt="background"/>
                         </div>
-                            <a href="#!user"><img class="circle" src="img/avatar.png" alt="avatar"/></a>
+                            <a href="#!user"><img class="circle" src="img/Darth-Vader.png" alt="avatar"/></a>
                         <a href="#!name"><span class="white-text name">Identificado como:</span></a>
                         <a href="#!name"><span class="white-text email" id="user_login">Sin conexión</span></a>
                         <!-- a href="#!email"><span class="white-text email">anonimo@fernandez.es</span></a-->
@@ -120,7 +120,20 @@
             </div>
             <!-- PROFESORADO -->
             <div id="panel_al_pro" class="panel" hidden>
-                Alta de un profesor
+                <h3>Create Profesor</h3>
+                <div class="input">
+                    <form>
+                        <div class="input">
+                            <input type="text" id="c_pro_nombre" class="input-field" placeholder="Nombre del Profesor" >
+                        </div>
+                        <div class="input">
+                            <input type="text" id="c_pro_apellidos" class="input-field" placeholder="Apellidos del Profesor">
+                        </div>
+                        <div class="input">
+                            <div class="btn" onclick="$.profesor.ProfesorCreateREST()">Enviar!</div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div id="panel_li_pro" class="panel" hidden>
                 Listado de profesores y gestión de modificaciones/borrado
