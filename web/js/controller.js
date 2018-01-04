@@ -131,7 +131,7 @@ $.controller.doGet = function (target, fn_exito) {
  */
 $.controller.doPost = function(target, datos, fn_exito) {
     $.ajax({
-            url: $.alumno.HOST + $.alumno.URL,
+            url: target,
             type: 'POST',
             dataType: 'json',
             contentType: "application/json",
