@@ -18,13 +18,16 @@ import java.util.List;
  */
 public interface AsignaturaDAO {
     void create(Asignatura as) throws DAOException;
-    void update() throws DAOException;
-    void delete() throws DAOException;
+    void update(Asignatura old_as, Asignatura new_as) throws DAOException;
+    void update(Integer old_id, Asignatura new_as) throws DAOException;
+    void delete(Integer id) throws DAOException;
+    void delete(Asignatura as) throws DAOException;
     List<Asignatura> findAll() throws DAOException;
     List<Asignatura> findByName(String name) throws DAOException;
     Asignatura findById(Integer id) throws DAOException;
     List<Asignatura> findByCurso(Integer curso) throws DAOException;
     List<Asignatura> findByCiclo(String ciclo) throws DAOException;
+    List<Asignatura> findByNombreCursoCiclo(String nombre, String curso, String ciclo) throws DAOException;
     List<Alumno> findAlumnos(Integer id_as) throws DAOException;
     List<Alumno> findAlumnos(Asignatura as) throws DAOException;
     List<Profesor> findProfesores(Integer id_as) throws DAOException;

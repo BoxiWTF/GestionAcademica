@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -53,15 +55,45 @@ public class AsignaturaDAOImpl implements AsignaturaDAO {
             throw new DAOException("Asignatura:Crear: No puedo conectar a la BBDD");
         }
     }
-
+    
     @Override
-    public void update() throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Asignatura old_as, Asignatura new_as) throws DAOException {
+        update(old_as.getId(), new_as);
     }
 
     @Override
-    public void delete() throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Integer old_id, Asignatura new_as) throws DAOException {
+        try {
+            Connection con = obtenerConexion();
+            PreparedStatement pstm = con.prepareStatement(" UPDATE ASIGNATURA SET id=?, nombre=?, curso=?, ciclo=? WHERE id=?");
+            pstm.setInt(5, old_id);
+            pstm.setInt(1, new_as.getId());
+            pstm.setString(2, new_as.getNombre());
+            pstm.setInt(3, new_as.getCurso());
+            pstm.setString(4, new_as.getCiclo());
+            pstm.execute();
+            con.close();
+        } catch (SQLException ex) {
+            throw new DAOException("Asignatura:Update: No puedo conectar a la BBDD");
+        }
+    }
+
+    @Override
+    public void delete(Integer id) throws DAOException {
+        try {
+            Connection con = obtenerConexion();
+            PreparedStatement pstm = con.prepareStatement("DELETE FROM ASIGNATURA WHERE id=?");
+            pstm.setInt(1, id);
+            pstm.execute();
+            con.close();
+        } catch (SQLException ex) {
+            throw new DAOException("Asignatura:Delete: No puedo conectar a la BBDD");
+        }
+    }
+
+    @Override
+    public void delete(Asignatura as) throws DAOException {
+        delete(as.getId());
     }
 
     @Override
@@ -85,23 +117,103 @@ public class AsignaturaDAOImpl implements AsignaturaDAO {
     }
 
     @Override
-    public List<Asignatura> findByName(String name) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Asignatura> findByName(String nombre) throws DAOException {
+        Asignatura as;
+        List<Asignatura> list_as = new ArrayList<>();
+        try {
+            Connection con = obtenerConexion();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM ASIGNATURA WHERE nombre=?");
+            pstm.setString(1, nombre);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                as = new Asignatura(rs.getString("nombre"), rs.getInt("id"), rs.getInt("curso"), rs.getString("ciclo"));
+                list_as.add(as);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            throw new DAOException("Asignatura:findByNombre: No se ha podido encontrar al conectar a la BBDD ");
+        }
+        return list_as;
     }
 
     @Override
     public Asignatura findById(Integer id) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Asignatura as;
+        try {
+            Connection con = obtenerConexion();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM ASIGNATURA WHERE id=?");
+            pstm.setInt(1, id);
+            ResultSet rs = pstm.executeQuery();
+            rs.next();
+            as = new Asignatura(rs.getString("nombre"), rs.getInt("id"), rs.getInt("curso"), rs.getString("ciclo"));
+            con.close();
+        } catch (SQLException ex) {
+            as = new Asignatura("error", -1, -1, "error");
+            throw new DAOException("Asignatura:findById: No se ha podido encontrar al conectar a la BBDD ");
+        }
+        return as;
     }
 
     @Override
     public List<Asignatura> findByCurso(Integer curso) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Asignatura as;
+        List<Asignatura> list_as = new ArrayList<>();
+        try {
+            Connection con = obtenerConexion();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM ASIGNATURA WHERE curso=?");
+            pstm.setInt(1, curso);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                as = new Asignatura(rs.getString("nombre"), rs.getInt("id"), rs.getInt("curso"), rs.getString("ciclo"));
+                list_as.add(as);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            throw new DAOException("Asignatura:findByCurso: No se ha podido encontrar al conectar a la BBDD ");
+        }
+        return list_as;
     }
 
     @Override
     public List<Asignatura> findByCiclo(String ciclo) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Asignatura as;
+        List<Asignatura> list_as = new ArrayList<>();
+        try {
+            Connection con = obtenerConexion();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM ASIGNATURA WHERE ciclo=?");
+            pstm.setString(1, ciclo);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                as = new Asignatura(rs.getString("nombre"), rs.getInt("id"), rs.getInt("curso"), rs.getString("ciclo"));
+                list_as.add(as);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            throw new DAOException("Asignatura:findByCiclo: No se ha podido encontrar al conectar a la BBDD ");
+        }
+        return list_as;
+    }
+    
+    @Override
+    public List<Asignatura> findByNombreCursoCiclo(String nombre, String curso, String ciclo) throws DAOException {
+        Asignatura as;
+        List<Asignatura> list_as = new ArrayList<>();
+        try {
+            Connection con = obtenerConexion();
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM ASIGNATURA WHERE nombre=? AND curso=? AND ciclo=?");
+            pstm.setString(1, nombre);
+            pstm.setString(2, curso);
+            pstm.setString(3, ciclo);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                as = new Asignatura(rs.getString("nombre"), rs.getInt("id"), rs.getInt("curso"), rs.getString("ciclo"));
+                list_as.add(as);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            throw new DAOException("Alumno:findByNombreCursoCiclo: No puedo conectar a la BBDD ");
+        }
+        return list_as;
     }
 
     @Override

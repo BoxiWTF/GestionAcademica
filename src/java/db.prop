@@ -3,5 +3,5 @@ driver=2
 host=localhost
 puerto=3306
 base_datos=gestion_academica
-usuario=damuser07
+usuario=damuser06
 password=damuser
